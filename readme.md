@@ -9,7 +9,7 @@
 
 JavaScript based Terraria player character file parser for Node.js
 
-\- supports only characters generated in 1.3.5.3
+\- supports only characters created in 1.3.5.3
 
 Feel free to contribute 🧙
 
