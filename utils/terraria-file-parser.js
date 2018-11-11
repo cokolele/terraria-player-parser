@@ -1,30 +1,13 @@
-class terrariaFileParser
+module.exports = class terrariaFileParser
 {
-	constructor(path, formatType)
+	constructor(path)
 	{
-		const fs = require("fs");
-		this.buffer = fs.readFileSync( path , [null, "r+"]);
+		const { readFileSync } = require("fs");
+		this.buffer = readFileSync( path , [null, "r+"]);
 		this.offset = 0;
-
-		if (formatType === "world")
-		{		
-			this.world = {
-				pointers:[],
-				importants:[],
-				tiles: {
-					x:null,
-					y:null,
-					solids: [true,true,true,null,null,null,true,true,true,true,true,null,null,null,null,null,null,null,null,true,null,null,true,true,null,true,null,null,null,null,true,null,null,null,null,null,null,true,true,true,true,true,null,true,true,true,true,true,true,null,null,true,true,true,true,null,true,true,true,true,true,null,true,true,true,true,true,true,true,null,true,null,null,null,null,true,true,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,true,true,true,null,true,true,null,null,true,true,true,true,true,true,true,true,true,null,null,null,true,null,null,true,null,null,null,null,null,null,true,null,null,true,null,null,null,null,true,true,true,true,null,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,null,true,true,true,true,true,null,null,null,null,true,true,true,null,true,true,true,true,true,null,null,null,null,true,true,true,true,true,true,true,true,true,true,true,true,true,null,true,true,true,true,true,null,true,null,null,true,null,null,null,null,null,null,null,null,null,true,true,true,true,true,true,null,null,true,true,null,true,null,true,true,null,null,null,true,null,null,null,null,null,null,null,null,true,true,true,true,true,true,null,true,true,true,true,true,true,true,true,true,true,true,true,true,true,null,null,null,true,true,true,null,null,null,null,null,null,null,null,null,true,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,true,true,true,null,true,null,null,null,null,null,true,true,null,null,true,true,true,true,true,null,null,null,null,null,null,true,null,null,null,true,true,true,true,true,true,true,true,true,null,true,true,true,true,null,null,null,true,null,null,null,null,null,null,null,true,true,true,true,true,true,true,null,null,null,null,null,null,null,true,null,true,true,true,true,true,null,null,null,null,null,null,null,null,null,null,true,true,true,true,true,true,true,true,true,null,null,true,true,true,null,null,null,null,null,true,true,true,true,null,null,true,true,null,null,null,true,null,null,null,true,true,true,true,true,null,null,null,null,null,null,null,null,null,null,null,true,true,true,true,true,true,null,null,null,null,null,null,true,true,true],
-				},
-			}
-		}
-		else if (formatType === "player")
-		{
-			
-		}
 	}
 
-	ReadInt8()
+	ReadUInt8()
 	{
 		this.offset += 1;
 		return this.buffer[this.offset - 1];
@@ -56,7 +39,7 @@ class terrariaFileParser
 
 	ReadString()
 	{
-		return this.ReadBytes( this.ReadInt8() ).toString("utf8");
+		return this.ReadBytes( this.ReadUInt8() ).toString("utf8");
 	}
 
 	ReadFloat()
@@ -73,25 +56,21 @@ class terrariaFileParser
 
 	ReadBoolean()
 	{
-		if (this.ReadInt8()) return true;
-		return false;
-	}
-
-	ReadByte()
-	{
-		this.offset += 1;
-		return this.buffer[this.offset];
+		return (!!this.ReadUInt8());
 	}
 
 	ReadBytes(count)
 	{
 		let data = [];
 		for (let i = 0; i < count; i++)
-		{
-			data[i] = this.buffer[this.offset];
-			this.offset += 1;
-		}
+			data[i] = this.ReadUInt8();
+
 		return Buffer.from(data);
+	}
+
+	ReadRGB()
+	{
+		return [ this.ReadUInt8(), this.ReadUInt8(), this.ReadUInt8()];
 	}
 
 	SkipBytes(count)
@@ -104,5 +83,3 @@ class terrariaFileParser
 		this.offset = offset;
 	}
 }
-
-module.exports = terrariaFileParser;

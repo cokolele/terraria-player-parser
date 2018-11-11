@@ -1,0 +1,16 @@
+{
+  "name": "terraria-player-parser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "terraria-player-parser.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test:general": "node ./tests/general-test.js"
+  },
+  "keywords": [],
+  "author": "cokolele",
+  "license": "ISC",
+  "dependencies": {}
+}
