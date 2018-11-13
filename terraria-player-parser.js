@@ -25,32 +25,34 @@ class terrariaPlayerParser extends terrariaFileParser
 
 		let data = {};
 
-		data.version 	= this.ReadInt32();
-		data.daco 		= this.ReadBytes(8);
-		data.revision 	= this.ReadUInt32();
+		data.version 		= this.ReadInt32();
+		data.magicNumber 	= this.ReadBytes(7).toString("ascii");
+		data.fileType       = this.ReadUInt8();
+		data.revision 		= this.ReadUInt32();
 		this.SkipBytes(7);
-		data.favorite 	= this.ReadBoolean(); //for some reason it is 64 bit boolean...
-		data.name 		= this.ReadString();
-		data.difficulty = this.ReadUInt8();
-		data.playTime 	= this.ReadBytes(8); //new TimeSpan(binaryReader.ReadInt64()
-		data.hair 		= this.ReadInt32();
-		data.hairDye 	= this.ReadUInt8();
-		this.SkipBytes(3); //wtf is BitsByte
-		data.skinVariant = this.ReadUInt8();
-		data.statLife = this.ReadInt32();
-		data.statLifeMax = this.ReadInt32();
-		data.statMana = this.ReadInt32();
-		data.statManaMax = this.ReadInt32();
+		data.favorite 		= this.ReadBoolean(); //for some reason it is 64 bit boolean...
+		data.name 			= this.ReadString();
+		data.difficulty 	= this.ReadUInt8();
+		data.playTime 		= this.ReadBytes(8); //new TimeSpan(binaryReader.ReadInt64()
+		data.hair 			= this.ReadInt32();
+		data.hairDye 		= this.ReadUInt8();
+		data.hideVisual 	= this.ParseBitsByte(10);
+		data.hideMisc 		= this.ParseBitsByte(8);
+		data.skinVariant 	= this.ReadUInt8();
+		data.statLife 		= this.ReadInt32();
+		data.statLifeMax 	= this.ReadInt32();
+		data.statMana 		= this.ReadInt32();
+		data.statManaMax 	= this.ReadInt32();
 		data.extraAccessory = this.ReadBoolean();
 		data.downedDD2EventAnyDifficulty = this.ReadBoolean();
-		data.taxMoney = this.ReadInt32();
-		data.hairColor = this.ReadRGB();
-		data.skinColor = this.ReadRGB();
-		data.eyeColor = this.ReadRGB();
-		data.shirtColor = this.ReadRGB();
+		data.taxMoney 		= this.ReadInt32();
+		data.hairColor 		= this.ReadRGB();
+		data.skinColor 		= this.ReadRGB();
+		data.eyeColor 		= this.ReadRGB();
+		data.shirtColor 	= this.ReadRGB();
 		data.underShirtColor = this.ReadRGB();
-		data.pantsColor = this.ReadRGB();
-		data.shoeColor = this.ReadRGB();
+		data.pantsColor 	= this.ReadRGB();
+		data.shoeColor 		= this.ReadRGB();
 
 		data.armor = [];
 		for (let i = 0; i < 20; i++)
@@ -200,10 +202,32 @@ class terrariaPlayerParser extends terrariaFileParser
 			data.builderAccStatus[i] = this.ReadInt32();
 
 		data.bartenderQuestLog = this.ReadInt32();
-				console.log(this.buffer.length);
-		console.log(this.offset);
 
 		return data;
+	}
+
+	ParseBitsByte(size)
+	{
+		/*
+		 * returns an array of bits values, reversed, booleans
+		 * 
+		 * examples with 96 and 3 as this.ReadUInt8() :
+		 * 	size = 8 bits	bytes [96] 		0b_0110_0000 			BitsByte bool [f,f,f,f,f,t,t,f]
+		 * 	size = 8 bits	bytes [3] 		0b_0000_0011 			BitsByte bool [t,t,f,f,f,f,f,f]
+		 * 	size = 10 bits 	bytes [96,3] 	0b_0110_0000_0000_0011 	BitsByte bool [f,f,f,f,f,t,t,f,t,t]
+		 */
+
+		let bytes = [];
+		for (let i = size; i > 0; i = i - 8)
+			bytes.push( this.ReadUInt8() );
+
+		let bits = [];
+		for (let i = 0; i < size; i++)
+		{
+			bits[i] = (bytes[~~(i / 8)] & (1 << i)) > 0;
+		}
+
+		return bits;
 	}
 
 	DecryptFile()

@@ -1,6 +1,6 @@
 const terrariaPlayerParser = require("../terraria-player-parser.js");
 
-const players = ["hello"];
+const players = ["sd"];
 
 try
 {
@@ -9,7 +9,7 @@ try
 /*		console.log("\n" + char);
 		console.log( Object.keys(player) ); */
 
-		//console.log(player);
+		console.log(player);
 	});
 }
 catch (e)
