@@ -1,4 +1,6 @@
-const terrariaFileParser = require("./utils/terraria-file-parser.js");
+TODO
+
+/*const terrariaFileParser = require("./utils/terraria-file-parser.js");
 
 class terrariaPlayerParser extends terrariaFileParser
 {
@@ -30,10 +32,14 @@ class terrariaPlayerParser extends terrariaFileParser
 		data.fileType       = this.ReadUInt8();
 		data.revision 		= this.ReadUInt32();
 		this.SkipBytes(7);
-		data.favorite 		= this.ReadBoolean(); //for some reason it is 64 bit boolean...
+		data.favorite 		= this.ReadBoolean(); //64 bit bool
+
+		if ( data.version < 194 || data.magicNumber != "relogic" || data.fileType != 3 )
+			throw new Error("world file version is not supported (only 1.3.5.3) or corrupted metadata");
+
 		data.name 			= this.ReadString();
 		data.difficulty 	= this.ReadUInt8();
-		data.playTime 		= this.ReadBytes(8); //new TimeSpan(binaryReader.ReadInt64()
+		data.playTime 		= this.ReadBytes(8); //new TimeSpan(binaryReader.ReadInt64())
 		data.hair 			= this.ReadInt32();
 		data.hairDye 		= this.ReadUInt8();
 		data.hideVisual 	= this.ParseBitsByte(10);
@@ -46,6 +52,7 @@ class terrariaPlayerParser extends terrariaFileParser
 		data.extraAccessory = this.ReadBoolean();
 		data.downedDD2EventAnyDifficulty = this.ReadBoolean();
 		data.taxMoney 		= this.ReadInt32();
+
 		data.hairColor 		= this.ReadRGB();
 		data.skinColor 		= this.ReadRGB();
 		data.eyeColor 		= this.ReadRGB();
@@ -214,41 +221,37 @@ class terrariaPlayerParser extends terrariaFileParser
 		 * examples with 96 and 3 as this.ReadUInt8() :
 		 * 	size = 8 bits	bytes [96] 		0b_0110_0000 			BitsByte bool [f,f,f,f,f,t,t,f]
 		 * 	size = 8 bits	bytes [3] 		0b_0000_0011 			BitsByte bool [t,t,f,f,f,f,f,f]
-		 * 	size = 10 bits 	bytes [96,3] 	0b_0110_0000_0000_0011 	BitsByte bool [f,f,f,f,f,t,t,f,t,t]
+		 * 	size = 10 bits 	bytes [96,3] 	0b_0110_0000_0000_0011 	BitsByte bool [f,f,f,f,f,f,f,f,t,t]
 		 */
 
 		let bytes = [];
 		for (let i = size; i > 0; i = i - 8)
 			bytes.push( this.ReadUInt8() );
 
-		let bits = [];
+		let bitValues = [];
 		for (let i = 0; i < size; i++)
 		{
 			bits[i] = (bytes[~~(i / 8)] & (1 << i)) > 0;
 		}
 
-		return bits;
+		return bitValues;
 	}
 
 	DecryptFile()
 	{
 		/*
+		 * source code:
+		 *
 		 *  private static byte[] ENCRYPTION_KEY = new UnicodeEncoding().GetBytes("h3y_gUyZ");
 		 *  using (CryptoStream cryptoStream = new CryptoStream((Stream) memoryStream, rijndaelManaged.CreateDecryptor(Player.ENCRYPTION_KEY, Player.ENCRYPTION_KEY), CryptoStreamMode.Read))
 		 */
-		try
-		{		
-			const { createDecipheriv } = require("crypto");
-			const key = Buffer.from("h3y_gUyZ", "utf16le");
-			const decipher = createDecipheriv('aes-128-cbc', key, key).setAutoPadding(false);
 
-			this.buffer = decipher.update(this.buffer, "hex");
-			decipher.final();
-		}
-		catch(e)
-		{
-			console.log(e);
-		}
+		const { createDecipheriv } = require("crypto");
+		const key = Buffer.from("h3y_gUyZ", "utf16le");
+		const decipher = createDecipheriv('aes-128-cbc', key, key).setAutoPadding(false);
+
+		this.buffer = decipher.update(this.buffer, "hex");
+		decipher.final();
 	}
 }
 

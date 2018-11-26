@@ -1,13 +1,13 @@
-const terrariaPlayerParser = require("../terraria-player-parser.js");
+const terrariaPlayerParser = require("../terraria-player-parser-node.js");
+const path = require("path");
 
 const players = ["sd"];
 
 try
 {
 	players.forEach( char => {
-		let player = new terrariaPlayerParser("C:/Users/Lukáš/Documents/my games/Terraria/Players/" + char + ".plr").Load();
-/*		console.log("\n" + char);
-		console.log( Object.keys(player) ); */
+		const playerFile = path.resolve(__dirname, `players/${char}.plr`);
+		let player = new terrariaPlayerParser( playerFile ).Load();
 
 		console.log(player);
 	});
