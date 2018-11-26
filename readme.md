@@ -98,7 +98,7 @@ Type | Variable | Description
 \|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | id |
 \|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | stack |
 \|&nbsp;&nbsp;&nbsp;&nbsp;*uint8* | prefix |
-*object array* : | bank3 |
+*object array* : &nbsp; &nbsp;| bank3 |
 \|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | id |
 \|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | stack |
 \|&nbsp;&nbsp;&nbsp;&nbsp;*uint8* | prefix |
