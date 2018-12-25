@@ -18,18 +18,12 @@ Feel free to contribute 🧙
 ```javascript
 const terrariaPlayerParser = require("./terraria-player-parser.js");
 
-try {
+let player = new terrariaPlayerParser("./Wizard.plr");
+player = player.Load();
 
-    let player = new terrariaPlayerParser("./Wizard.plr");
-    player = player.Load();
-
-    const name = player.name;
-    const cQuests = player.anglerQuestsFinished;
-    console.log( `${name} has completed ${cQuests} anglers quests!`);
-
-} catch (e) {
-    console.log(e.message)
-}
+const name = player.name;
+const hp = player.statLife;
+console.log( `${name} has ${hp} health right now!`);
 ```
 
 ## Functions:
@@ -73,35 +67,35 @@ Type | Variable | Description
 *rgb array* | underShirtColor | color of the under shit
 *rgb array* | pantsColor | color of the pants
 *rgb array* | shoeColor | color of the shoes
-*object array* : | armor |
-\|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | id |
-\|&nbsp;&nbsp;&nbsp;&nbsp;*uint8* | prefix |
-*object array* : | dye |
-\|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | id |
-\|&nbsp;&nbsp;&nbsp;&nbsp;*uint8* | prefix |
-*object array* : | inventory |
-\|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | id |
-\|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | stack |
-\|&nbsp;&nbsp;&nbsp;&nbsp;*uint8* | prefix |
-\|&nbsp;&nbsp;&nbsp;&nbsp;*boolean* | favorited |
-*object array* : | miscEquips |
-\|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | id |
-\|&nbsp;&nbsp;&nbsp;&nbsp;*uint8* | prefix |
-*object array* : | miscDyes |
-\|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | id |
-\|&nbsp;&nbsp;&nbsp;&nbsp;*uint8* | prefix |
+*object array* : | armor | equipped items
+\|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | id | item id
+\|&nbsp;&nbsp;&nbsp;&nbsp;*uint8* | prefix | prefix id
+*object array* : | dye | dyes of armor
+\|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | id | item id
+\|&nbsp;&nbsp;&nbsp;&nbsp;*uint8* | prefix | prefix id
+*object array* : | inventory | items in player inventory
+\|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | id | item id
+\|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | stack | stack size
+\|&nbsp;&nbsp;&nbsp;&nbsp;*uint8* | prefix | prefix id
+\|&nbsp;&nbsp;&nbsp;&nbsp;*boolean* | favorited | is favorite checked
+*object array* : | miscEquips | equipped misc (pet, light, mount ...)
+\|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | id | item id
+\|&nbsp;&nbsp;&nbsp;&nbsp;*uint8* | prefix | prexif id
+*object array* : | miscDyes | dyes of misc
+\|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | id | item id
+\|&nbsp;&nbsp;&nbsp;&nbsp;*uint8* | prefix | prexif id
 *object array* : | bank |
-\|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | id |
-\|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | stack |
-\|&nbsp;&nbsp;&nbsp;&nbsp;*uint8* | prefix |
+\|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | id | item id
+\|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | stack | stack size
+\|&nbsp;&nbsp;&nbsp;&nbsp;*uint8* | prefix | prefix id
 *object array* : | bank2 |
-\|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | id |
-\|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | stack |
-\|&nbsp;&nbsp;&nbsp;&nbsp;*uint8* | prefix |
+\|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | id | item id
+\|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | stack | stack size
+\|&nbsp;&nbsp;&nbsp;&nbsp;*uint8* | prefix | prexif id
 *object array* : &nbsp; &nbsp;| bank3 |
-\|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | id |
-\|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | stack |
-\|&nbsp;&nbsp;&nbsp;&nbsp;*uint8* | prefix |
+\|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | id | item id
+\|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | stack | stack size
+\|&nbsp;&nbsp;&nbsp;&nbsp;*uint8* | prefix | prexif id
 *int32 array* | buffType | ids of buffs
 *int32 array* | buffTime | time lefts of buffs
 *int32 array* | spX | X position of the spawn point (each array index is one exact map)
