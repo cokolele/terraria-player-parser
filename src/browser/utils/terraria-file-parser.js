@@ -2,21 +2,30 @@ class terrariaFileParser
 {
 	constructor(file)
 	{
-		const reader = new FileReader();
+		this.file = file;
+		this.offset = 0;
+	}
+
+	async LoadFile()
+	{
 		const _this = this;
 
-		reader.onload = function(e) {
-			_this.offset = 0;
-			_this.buffer = new DataView(reader.result);
-			console.log("done")
-		}
+		await new Promise((resolve, reject) => {		
+			const reader = new FileReader();
 
-		reader.onerror = function(e) {
-			reader.abort();
-			throw new Error(reader.error);
-		}
+			reader.onload = function(e) {
+				_this.buffer = new DataView(reader.result);
+				resolve();
+			}
 
-		reader.readAsArrayBuffer(file);
+			reader.onerror = function(e) {
+				reader.abort();
+				throw new Error(reader.error);
+				reject();
+			}
+
+			reader.readAsArrayBuffer(_this.file);
+		});
 	}
 
 	ReadUInt8()

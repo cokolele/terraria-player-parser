@@ -12,6 +12,13 @@ class terrariaPlayerParser extends terrariaFileParser
         }
     }
 
+// builder pattern since constructor can't be asynchronous
+    async Load()
+    {
+        await this.LoadFile();
+        await new Promise(resolve => setTimeout(resolve, 2000));
+    }
+
     Parse()
     {
         try {
