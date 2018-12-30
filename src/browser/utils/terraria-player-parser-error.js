@@ -1,4 +1,4 @@
-module.exports = function TerrariaPlayerParserError(error, message) {
+function TerrariaPlayerParserError(error, message) {
 	if (error.name == "TerrariaPlayerParserError")
 		return error;
 
@@ -7,3 +7,5 @@ module.exports = function TerrariaPlayerParserError(error, message) {
 	error.name = "TerrariaPlayerParserError";
 	return error;
 };
+
+export default TerrariaPlayerParserError;

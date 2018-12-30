@@ -1,8 +1,9 @@
+const { readFileSync } = require("fs");
+
 module.exports = class terrariaFileParser
 {
 	constructor(path)
 	{
-		const { readFileSync } = require("fs");
 		this.buffer = readFileSync( path , [null, "r+"]);
 		this.offset = 0;
 	}
@@ -37,18 +38,13 @@ module.exports = class terrariaFileParser
 		return this.buffer.readUInt32LE( this.offset - 4 );
 	}
 
-	ReadString()
-	{
-		return this.ReadBytes( this.ReadUInt8() ).toString("utf8");
-	}
-
-	ReadFloat()
+	ReadFloat32()
 	{
 		this.offset += 4;
 		return this.buffer.readFloatLE( this.offset - 4 );
 	}
 
-	ReadDouble()
+	ReadFloat64()
 	{
 		this.offset += 8;
 		return this.buffer.readDoubleLE( this.offset - 8 );
@@ -66,6 +62,11 @@ module.exports = class terrariaFileParser
 			data[i] = this.ReadUInt8();
 
 		return Buffer.from(data);
+	}
+
+	ReadString()
+	{
+		return this.ReadBytes( this.ReadUInt8() ).toString("utf8");
 	}
 
 	ReadRGB()

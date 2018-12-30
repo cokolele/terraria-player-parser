@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Terraria-player-parser</title>
+	<meta charset="UTF-8">
+</head>
+<body>
+	<input type="file" id="btn">
+
+	<noscript>enable js</noscript>
+	<script type="module" src="../terraria-player-parser-browser.js"></script>
+	<script>
+		var log = document.getElementById("log");
+		var btn = document.getElementById("btn");
+
+		var fileData;
+
+		btn.addEventListener("change", function(e) {
+			window.player = new terrariaPlayerParser(this.files[0]);
+			setTimeout(() => {
+				window.player.Parse();
+			}, 1000);
+		});
+	</script>
+</body>
+</html>

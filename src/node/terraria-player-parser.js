@@ -1,5 +1,6 @@
 const terrariaFileParser = require("./utils/terraria-file-parser.js");
 const TerrariaPlayerParserError = require("./utils/terraria-player-parser-error.js");
+const { createDecipheriv } = require("crypto");
 
 class terrariaPlayerParser extends terrariaFileParser
 {
@@ -180,10 +181,8 @@ class terrariaPlayerParser extends terrariaFileParser
         /*
          * returns an array of bits values, reversed, booleans
          * 
-         * examples with 96 and 3 as this.ReadUInt8() :
-         *  size = 8 bits   bytes [96]      0b_0110_0000            BitsByte bool [f,f,f,f,f,t,t,f]
-         *  size = 8 bits   bytes [3]       0b_0000_0011            BitsByte bool [t,t,f,f,f,f,f,f]
-         *  size = 10 bits  bytes [96,3]    0b_0110_0000_0000_0011  BitsByte bool [f,f,f,f,f,f,f,f,t,t]
+         * example with 96 and 3 as this.ReadUInt8() :
+         *  size = 10 bits  bytes [96,3]    0b_0110_0000_0000_0011  BitsByte bool [t,t,f,f,f,f,f,f,f,f]
          */
 
         let bytes = [];
@@ -191,8 +190,10 @@ class terrariaPlayerParser extends terrariaFileParser
             bytes.push( this.ReadUInt8() );
 
         let bitValues = [];
-        for (let i = 0; i < size; i++) {
-            bitValues[i] = (bytes[~~(i / 8)] & (1 << i)) > 0;
+        for (let i = 0, j = 0; i < size; i++, j++) {
+            if (j == 8)
+                j = 0;
+            bitValues[i] = (bytes[~~(i / 8)] & (1 << j)) > 0;
         }
 
         return bitValues;
@@ -207,7 +208,6 @@ class terrariaPlayerParser extends terrariaFileParser
          *  using (CryptoStream cryptoStream = new CryptoStream((Stream) memoryStream, rijndaelManaged.CreateDecryptor(Player.ENCRYPTION_KEY, Player.ENCRYPTION_KEY), CryptoStreamMode.Read))
          */
 
-        const { createDecipheriv } = require("crypto");
         const key = Buffer.from("h3y_gUyZ", "utf16le");
         const decipher = createDecipheriv('aes-128-cbc', key, key).setAutoPadding(false);
 
