@@ -7,16 +7,19 @@
     "test": "tests"
   },
   "scripts": {
-    "test:general": "node ./src/tests/general-test.js"
+    "test:general": "node ./src/tests/general-test.js",
+    "test:server": "parcel serve --port 80 --open --out-dir src/tests --out-file browser-test-parcel-built.html --target browser --cache-dir src/tests/.cache src/tests/browser-test-parcel.html"
   },
   "keywords": [],
   "author": "cokolele",
   "license": "ISC",
   "dependencies": {
-    "crypto-js": "^3.1.9-1"
+    "@babel/polyfill": "^7.2.5",
+    "aes-js": "^3.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
-    "@babel/preset-env": "^7.2.3"
+    "@babel/preset-env": "^7.2.3",
+    "parcel-bundler": "^1.11.0"
   }
 }

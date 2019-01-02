@@ -3,4 +3,6 @@ logs
 npm-debug.log*
 node_modules/
 /package-lock.json
-/.gitignore
+.cache
+*.map
+src/tests/*.js

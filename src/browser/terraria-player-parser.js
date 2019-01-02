@@ -1,5 +1,6 @@
-import terrariaFileParser from "./utils/terraria-file-parser.js";
-import TerrariaPlayerParserError from "./utils/terraria-player-parser-error.js";
+const terrariaFileParser = require("./utils/terraria-file-parser.js");
+const TerrariaPlayerParserError = require("./utils/terraria-player-parser-error.js");
+const aes = require("aes-js");
 
 class terrariaPlayerParser extends terrariaFileParser
 {
@@ -12,14 +13,13 @@ class terrariaPlayerParser extends terrariaFileParser
         }
     }
 
-// builder pattern since constructor can't be asynchronous
-    async Load()
+// constructor cant be asynchronous
+    async LoadFile()
     {
-        await this.LoadFile();
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        await super.LoadFile();
     }
 
-    Parse()
+    async Parse()
     {
         try {
             this.DecryptFile();
@@ -30,14 +30,14 @@ class terrariaPlayerParser extends terrariaFileParser
         let data = {};
         try {
             data.version        = this.ReadInt32();
-            data.magicNumber    = this.ReadBytes(7).toString("ascii");
+            data.magicNumber    = this.ReadString(7);
             data.fileType       = this.ReadUInt8();
             data.revision       = this.ReadUInt32();
             this.SkipBytes(7);
             data.favorite       = this.ReadBoolean(); //64 bit bool
 
             if ( data.version < 194 || data.magicNumber != "relogic" || data.fileType != 3 )
-                throw TerrariaPlayerParserError( new Error("world file version is not supported (only 1.3.5.3) or corrupted metadata") );
+                throw new Error("world file version is not supported (only 1.3.5.3) or corrupted metadata");
 
             data.name           = this.ReadString();
             data.difficulty     = this.ReadUInt8();
@@ -213,10 +213,11 @@ class terrariaPlayerParser extends terrariaFileParser
          *  private static byte[] ENCRYPTION_KEY = new UnicodeEncoding().GetBytes("h3y_gUyZ");
          *  using (CryptoStream cryptoStream = new CryptoStream((Stream) memoryStream, rijndaelManaged.CreateDecryptor(Player.ENCRYPTION_KEY, Player.ENCRYPTION_KEY), CryptoStreamMode.Read))
          */
-        
 
-        //TODO
-        //console.log(AES.decrypt(this.buffer.toString(), "h3y_gUyZ"));
+        const key = new Uint8Array([104,0,51,0,121,0,95,0,103,0,85,0,121,0,90,0]);
+        const cbc = new aes.ModeOfOperation.cbc(key, key);
+        this.buffer = cbc.decrypt( new Uint8Array(this.buffer) );
+        this.buffer = new DataView(this.buffer.buffer);
     }
 }
 

@@ -5,7 +5,7 @@ const players = ["sd"];
 
 players.forEach( char => {
 	const playerFile = path.resolve(__dirname, `players/${char}.plr`);
-	let player = new terrariaPlayerParser( playerFile ).Load();
+	let player = new terrariaPlayerParser( playerFile ).Parse();
 
 	console.log(player.name);
 });

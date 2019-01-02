@@ -13,7 +13,7 @@ class terrariaPlayerParser extends terrariaFileParser
         }
     }
 
-    Load()
+    Parse()
     {
         try {
             this.DecryptFile();
@@ -31,7 +31,7 @@ class terrariaPlayerParser extends terrariaFileParser
             data.favorite       = this.ReadBoolean(); //64 bit bool
 
             if ( data.version < 194 || data.magicNumber != "relogic" || data.fileType != 3 )
-                throw TerrariaPlayerParserError( new Error("world file version is not supported (only 1.3.5.3) or corrupted metadata") );
+                throw new Error("world file version is not supported (only 1.3.5.3) or corrupted metadata");
 
             data.name           = this.ReadString();
             data.difficulty     = this.ReadUInt8();

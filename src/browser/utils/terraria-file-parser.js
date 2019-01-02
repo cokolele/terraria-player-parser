@@ -1,3 +1,5 @@
+const aes = require("aes-js");
+
 class terrariaFileParser
 {
 	constructor(file)
@@ -14,7 +16,7 @@ class terrariaFileParser
 			const reader = new FileReader();
 
 			reader.onload = function(e) {
-				_this.buffer = new DataView(reader.result);
+				_this.buffer = reader.result;
 				resolve();
 			}
 
@@ -84,9 +86,9 @@ class terrariaFileParser
 		return new Uint8Array(data);
 	}
 
-	ReadString()
+	ReadString(length)
 	{
-		return String.fromCharCode.apply(null, this.ReadBytes( this.ReadUInt8() ));
+		return aes.utils.utf8.fromBytes( this.ReadBytes( length !== undefined ? length : this.ReadUInt8() ) );
 	}
 
 	ReadRGB()
@@ -105,4 +107,4 @@ class terrariaFileParser
 	}
 }
 
-export default terrariaFileParser;
+module.exports = terrariaFileParser;

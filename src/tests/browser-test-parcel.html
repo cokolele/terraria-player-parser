@@ -8,15 +8,18 @@
 	<input type="file" id="btn">
 
 	<noscript>enable js</noscript>
-	<script type="module" src="../browser/terraria-player-parser.js"></script>
+	<script src="../../node_modules/@babel/polyfill/browser.js"></script>
+	<script src="../browser/Terraria-player-parser.js"></script>
 	<script>
 		var btn = document.getElementById("btn");
 
 		btn.addEventListener("change", async function(e) {
 			window.player = new terrariaPlayerParser(this.files[0]);
-			console.log(window.player);
-			await window.player.Load();
-			console.log(window.player);
+			await window.player.LoadFile();
+			const data = await window.player.Parse();
+
+			console.log("version " + data.version);
+			console.log("name " + data.name);
 		});
 	</script>
 </body>
