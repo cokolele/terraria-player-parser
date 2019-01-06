@@ -7,8 +7,9 @@
     "test": "tests"
   },
   "scripts": {
-    "test:general": "node ./src/tests/general-test.js",
-    "test:server": "parcel serve --port 80 --open --out-dir src/tests --out-file browser-test-parcel-built.html --target browser --cache-dir src/tests/.cache src/tests/browser-test-parcel.html"
+    "test:node": "node ./src/tests/node.js",
+    "server": "parcel serve --port 80 --open --out-dir src/tests --out-file browser-built.html --target browser --cache-dir src/tests/.cache src/tests/browser.html",
+    "build:browser": "parcel build --out-dir ./ --out-file terraria-player-parser-browser.min.js --no-cache --target browser --no-source-maps src/browser/terraria-player-parser.js"
   },
   "keywords": [],
   "author": "cokolele",
@@ -18,8 +19,6 @@
     "aes-js": "^3.1.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.2.2",
-    "@babel/preset-env": "^7.2.3",
     "parcel-bundler": "^1.11.0"
   }
 }

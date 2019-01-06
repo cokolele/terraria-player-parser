@@ -1,110 +1,102 @@
 const aes = require("aes-js");
 
-class terrariaFileParser
+module.exports = class terrariaFileParser
 {
-	constructor(file)
-	{
-		this.file = file;
-		this.offset = 0;
-	}
+    constructor(file)
+    {
+        const _this = thiis;
 
-	async LoadFile()
-	{
-		const _this = this;
+        return (async () => {
+            await new Promise((resolve, reject) => {        
+                const reader = new FileReader();
 
-		await new Promise((resolve, reject) => {		
-			const reader = new FileReader();
+                reader.onload = function(e) {
+                    _this.buffer = reader.result;
+                    _this.offset = 0;
+                    resolve();
+                }
 
-			reader.onload = function(e) {
-				_this.buffer = reader.result;
-				resolve();
-			}
+                reader.onerror = function(e) {
+                    reader.abort();
+                    throw new Error(reader.error);
+                    reject();
+                }
 
-			reader.onerror = function(e) {
-				reader.abort();
-				throw new Error(reader.error);
-				reject();
-			}
+                reader.readAsArrayBuffer(file);
+            });
 
-			reader.readAsArrayBuffer(_this.file);
-		});
-	}
+            return _this;
+        })();
+    }
 
-	ReadUInt8()
-	{
-		this.offset += 1;
-		return this.buffer.getUint8( this.offset - 1, true );
-	}
+    readUInt8()
+    {
+        this.offset += 1;
+        return this.buffer.getUint8( this.offset - 1, true );
+    }
 
-	ReadInt16()
-	{
-		this.offset += 2;
-		return this.buffer.getInt16( this.offset - 2, true );
-	}
+    readInt16()
+    {
+        this.offset += 2;
+        return this.buffer.getInt16( this.offset - 2, true );
+    }
 
-	ReadUInt16()
-	{
-		this.offset += 2;
-		return this.buffer.getUint16( this.offset - 2, true );
-	}
+    readUInt16()
+    {
+        this.offset += 2;
+        return this.buffer.getUint16( this.offset - 2, true );
+    }
 
-	ReadInt32()
-	{
-		this.offset += 4;
-		return this.buffer.getInt32( this.offset - 4, true );
-	}
+    readInt32()
+    {
+        this.offset += 4;
+        return this.buffer.getInt32( this.offset - 4, true );
+    }
 
-	ReadUInt32()
-	{
-		this.offset += 4;
-		return this.buffer.getUint32( this.offset - 4, true );
-	}
+    readUInt32()
+    {
+        this.offset += 4;
+        return this.buffer.getUint32( this.offset - 4, true );
+    }
 
-	ReadFloat32()
-	{
-		this.offset += 4;
-		return this.buffer.getFloat32( this.offset - 4, true );
-	}
+    readFloat32()
+    {
+        this.offset += 4;
+        return this.buffer.getFloat32( this.offset - 4, true );
+    }
 
-	ReadFloat64()
-	{
-		this.offset += 8;
-		return this.buffer.getFloat64( this.offset - 8, true );
-	}
+    readFloat64()
+    {
+        this.offset += 8;
+        return this.buffer.getFloat64( this.offset - 8, true );
+    }
 
-	ReadBoolean()
-	{
-		return (!!this.ReadUInt8());
-	}
+    readBoolean()
+    {
+        return (!!this.readUInt8());
+    }
 
-	ReadBytes(count)
-	{
-		let data = [];
-		for (let i = 0; i < count; i++)
-			data[i] = this.ReadUInt8();
+    readBytes(count)
+    {
+        let data = [];
+        for (let i = 0; i < count; i++)
+            data[i] = this.readUInt8();
 
-		return new Uint8Array(data);
-	}
+        return new Uint8Array(data);
+    }
 
-	ReadString(length)
-	{
-		return aes.utils.utf8.fromBytes( this.ReadBytes( length !== undefined ? length : this.ReadUInt8() ) );
-	}
+    readString(length)
+    {
+        return aes.utils.utf8.fromBytes( this.readBytes( length ? length : this.readUInt8() ) );
+    }
 
-	ReadRGB()
-	{
-		return [ this.ReadUInt8(), this.ReadUInt8(), this.ReadUInt8()];
-	}
+    readRGB()
+    {
+        return [ this.readUInt8(), this.readUInt8(), this.readUInt8()];
+    }
 
-	SkipBytes(count)
-	{
-		this.offset += count;
-	}
-
-	JumpTo(offset)
-	{
-		this.offset = offset;
-	}
+    skipBytes(count)
+    {
+        this.offset += count;
+    }
 }
-
-module.exports = terrariaFileParser;
