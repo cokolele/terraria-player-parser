@@ -7,7 +7,7 @@
 
 # Terraria player parser
 
-JavaScript based Terraria player character file parser for Node.js
+Terraria player file parser written in javascript
 
 \- supports only characters created in 1.3.5.3
 
@@ -16,10 +16,15 @@ Feel free to contribute 🧙
 ## Usage 
 
 ```javascript
-const terrariaPlayerParser = require("./terraria-player-parser.js");
+const terrariaPlayerParser = require("terraria-player-parser.js");
 
-let player = new terrariaPlayerParser("./Wizard.plr");
-player = player.Load();
+// node
+let player = new terrariaPlayerParser(path);
+player = player.parse();
+
+// browser
+let player = await new terrariaPlayerParser(file);
+player = await window.player.parse();
 
 const name = player.name;
 const hp = player.statLife;
@@ -28,13 +33,12 @@ console.log( `${name} has ${hp} health right now!`);
 
 ## Functions:
 
-  class constructor: new terrariaPlayerParser( "./path/to/file.plr" )
- - Opens the file, does not parse it yet
+class constructor: new terrariaPlayerParser( path|file )
+ \- Opens the file, does not parse it yet
 
-
-  instance method: Load()
- - Parses the file
- - Returns an object
+instance method: parse()
+ \- Parses the file
+ \- Returns an object
 
 ## Return object:
 
@@ -84,15 +88,15 @@ Type | Variable | Description
 *object array* : | miscDyes | dyes of misc
 \|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | id | item id
 \|&nbsp;&nbsp;&nbsp;&nbsp;*uint8* | prefix | prexif id
-*object array* : | bank |
+*object array* : | bank | safe inventory
 \|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | id | item id
 \|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | stack | stack size
 \|&nbsp;&nbsp;&nbsp;&nbsp;*uint8* | prefix | prefix id
-*object array* : | bank2 |
+*object array* : | bank2 | piggy bank inventory
 \|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | id | item id
 \|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | stack | stack size
 \|&nbsp;&nbsp;&nbsp;&nbsp;*uint8* | prefix | prexif id
-*object array* : &nbsp; &nbsp;| bank3 |
+*object array* : &nbsp; &nbsp;| bank3 | defender's forge inventory
 \|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | id | item id
 \|&nbsp;&nbsp;&nbsp;&nbsp;*int32* | stack | stack size
 \|&nbsp;&nbsp;&nbsp;&nbsp;*uint8* | prefix | prexif id
