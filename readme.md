@@ -33,11 +33,11 @@ console.log( `${name} has ${hp} health right now!`);
 
 ## Functions:
 
-class constructor: new terrariaPlayerParser( path|file )
+class constructor: new terrariaPlayerParser( path|file )  
  \- Opens the file, does not parse it yet
 
-instance method: parse()
- \- Parses the file
+instance method: parse()  
+ \- Parses the file  
  \- Returns an object
 
 ## Return object:
