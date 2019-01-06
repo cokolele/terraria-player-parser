@@ -24,7 +24,7 @@ player = player.parse();
 
 // browser
 let player = await new terrariaPlayerParser(file);
-player = await window.player.parse();
+player = await player.parse();
 
 const name = player.name;
 const hp = player.statLife;
@@ -38,7 +38,7 @@ console.log( `${name} has ${hp} health right now!`);
  \- Opens the file, does not parse it yet
 
 *instance method* **parse()**  
-  
+
  \- Parses the file  
  \- Returns an object
 
