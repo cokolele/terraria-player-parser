@@ -46,12 +46,12 @@ console.log( `${name} has ${hp} health right now!`);
 
 Type | Variable | Description
 --- | --- | ---
-*int32* | version | map file version (not game version)
+*int32* | version | player file version (not game version)
 *7 bytes string* | magicNumber | magic number for file format
-*uint8* | fileType | file format type (relogic uses more formats than .wld)
+*uint8* | fileType | file format type (relogic uses more formats than .plr)
 *uint32* | revision | how many times player file was saved (always 0 - works only for maps)
 *bool* | favorite | is map favorite (always 0)
-*string* | name | is map favorite (always 0)
+*string* | name | player's name
 *uint8* | difficulty | softcore, mediumcore, hardcore
 *int64* | playTime | players ingame time (returns 8 bytes array, njs doesn't support int64 natively)
 *int32* | hair | hair type
