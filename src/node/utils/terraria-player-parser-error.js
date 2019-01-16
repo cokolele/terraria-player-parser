@@ -1,11 +1,13 @@
-function TerrariaPlayerParserError(error, message) {
-	if (error.name == "TerrariaPlayerParserError")
-		return error;
-
-	if (message)
-		error.message = `${message}\n${error.name}: ${error.message}`;
-	error.name = "TerrariaPlayerParserError";
-	return error;
-};
+class TerrariaPlayerParserError extends Error
+{
+    constructor(error, message)
+    {
+        super(message);
+        error.message = this.message = `${this.message}: \n${error.name}: ${error.message}`;
+        error.name = this.name = "TerrariaPlayerParserError";
+        this.stack = error.stack;
+        this.userMessage = message;
+    }
+}
 
 module.exports = TerrariaPlayerParserError;

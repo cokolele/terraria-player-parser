@@ -1,8 +1,8 @@
 <!--
   Title: terraria player parser
-  Description: Terraria player character file parser
+  Description: Terraria player parser
   Author: cokolele
-  Tags: terraria, player file, file structure, file dumper, file format, documentation, data, parsing, parser, inventory viewer, tool
+  Tags: terraria, player file, file structure, file dumper, file format, documentation, data, parsing, parser, inventory viewer, tool, node, browser
   -->
 
 # Terraria player parser
@@ -18,13 +18,12 @@ Feel free to contribute 🧙
 ```javascript
 const terrariaPlayerParser = require("terraria-player-parser.js");
 
-// node
-let player = new terrariaPlayerParser(path);
-player = player.parse();
+//node
+let player = new terrariaPlayerParser("Wizard.plr");
+//browser
+let player = await new terrariaPlayerParser(playerFile);
 
-// browser
-let player = await new terrariaPlayerParser(file);
-player = await player.parse();
+player = player.parse();
 
 const name = player.name;
 const hp = player.statLife;
@@ -33,9 +32,10 @@ console.log( `${name} has ${hp} health right now!`);
 
 ## Functions:
 
-*class constructor* **new terrariaPlayerParser( path|file )**  
+*node class constructor* **new terrariaPlayerParser( path )**  
+*browser class constructor* **new terrariaPlayerParser( file )**  
 
- \- Opens the file, does not parse it yet
+ \- Opens/loads the file, doesn't parse it yet
 
 *instance method* **parse()**  
 

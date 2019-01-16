@@ -4,7 +4,7 @@ module.exports = class terrariaFileParser
 {
     constructor(file)
     {
-        const _this = thiis;
+        const _this = this;
 
         return (async () => {
             await new Promise((resolve, reject) => {        
