@@ -14,10 +14,10 @@
   "keywords": [],
   "author": "cokolele",
   "license": "ISC",
-  "dependencies": { //dont forget to install this when using browser version
+  "dependencies": {
     "aes-js": "^3.1.2"
   },
-  "devDependencies": { //just for testing
+  "devDependencies": {
     "@babel/polyfill": "^7.2.5",
     "parcel-bundler": "^1.11.0"
   }
