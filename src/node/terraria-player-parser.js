@@ -8,7 +8,7 @@ module.exports = class terrariaPlayerParser extends terrariaFileParser
     {
         try {
             super(path);
-        } catch(e) {
+        } catch (e) {
             throw new TerrariaPlayerParserError(e, "Problem with opening the file");
         }
     }

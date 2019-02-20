@@ -8,7 +8,7 @@ class terrariaPlayerParser extends terrariaFileParser
     {
         try {
             super(file);
-        } catch(e) {
+        } catch (e) {
             throw new TerrariaPlayerParserError(e, "Problem with opening the file");
         }
     }

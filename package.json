@@ -1,24 +1,40 @@
 {
   "name": "terraria-player-parser",
   "version": "1.0.0",
-  "description": "",
-  "main": "terraria-player-parser.js",
-  "directories": {
-    "test": "tests"
-  },
+  "description": "Terraria player file parser in javascript",
+  "main": "src/node/terraria-player-parser.js",
   "scripts": {
-    "test:node": "node ./src/tests/node.js",
-    "server": "parcel serve --port 80 --open --out-dir src/tests --out-file browser-built.html --target browser --cache-dir src/tests/.cache src/tests/browser.html",
-    "build:browser": "parcel build --out-dir ./ --out-file terraria-player-parser-browser.min.js --no-cache --target browser --no-source-maps src/browser/terraria-player-parser.js"
+    "test:node": "node src/tests/node.js",
+    "test:browser": "parcel serve --port 80 --open --out-dir src/tests/parcel-cache --out-file browser-built.html --target browser --cache-dir src/tests/parcel-cache/.cache src/tests/browser.html"
   },
-  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cokolele/terraria-player-parser.git"
+  },
+  "keywords": [
+    "terraria",
+    "player file",
+    "file structure",
+    "file dumper",
+    "file format",
+    "documentation",
+    "data",
+    "parsing",
+    "parser",
+    "player viewer",
+    "tool",
+    "javascript",
+    "node",
+    "browser"
+  ],
   "author": "cokolele",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cokolele/terraria-player-parser/issues"
+  },
+  "homepage": "https://github.com/cokolele/terraria-player-parser#readme",
   "dependencies": {
     "aes-js": "^3.1.2"
   },
-  "devDependencies": {
-    "@babel/polyfill": "^7.2.5",
-    "parcel-bundler": "^1.11.0"
-  }
+  "devDependencies": {}
 }
